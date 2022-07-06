@@ -1,0 +1,365 @@
+{
+	"info": {
+		"_postman_id": "dc6c358d-e8a2-4cef-b5c5-90d4ca9b85a5",
+		"name": "Flights Main",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1702387"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/signup/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"signup",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/login/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/info/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"info",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserInfo Update",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"test\",\n    \"last_name\": \"test\",\n    \"email\": \"info@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/info/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"info",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flights Lists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/flights/?price=138&min_price&max_price&date_time&after&before&out_city&out_airport=BER&in_city&in_airport",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"flights",
+						""
+					],
+					"query": [
+						{
+							"key": "price",
+							"value": "138"
+						},
+						{
+							"key": "min_price",
+							"value": null
+						},
+						{
+							"key": "max_price",
+							"value": null
+						},
+						{
+							"key": "date_time",
+							"value": null
+						},
+						{
+							"key": "after",
+							"value": null
+						},
+						{
+							"key": "before",
+							"value": null
+						},
+						{
+							"key": "out_city",
+							"value": null
+						},
+						{
+							"key": "out_airport",
+							"value": "BER"
+						},
+						{
+							"key": "in_city",
+							"value": null
+						},
+						{
+							"key": "in_airport",
+							"value": null
+						},
+						{
+							"key": "airplane",
+							"value": "Boing-747",
+							"disabled": true
+						},
+						{
+							"key": "carrier",
+							"value": "La Compagnie",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Carrier Airplanes List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/airplaines/La Compagnie/?price=138&min_price&max_price&date_time&after&before&out_city&out_airport&in_city&in_airport",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airplaines",
+						"La Compagnie",
+						""
+					],
+					"query": [
+						{
+							"key": "price",
+							"value": "138"
+						},
+						{
+							"key": "min_price",
+							"value": null
+						},
+						{
+							"key": "max_price",
+							"value": null
+						},
+						{
+							"key": "date_time",
+							"value": null
+						},
+						{
+							"key": "after",
+							"value": null
+						},
+						{
+							"key": "before",
+							"value": null
+						},
+						{
+							"key": "out_city",
+							"value": null
+						},
+						{
+							"key": "out_airport",
+							"value": null
+						},
+						{
+							"key": "in_city",
+							"value": null
+						},
+						{
+							"key": "in_airport",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Current User Reserve List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/reserve/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"reserve",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reserve A Flight",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"flight\": 1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/reserve/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"reserve",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Reserve",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/reserve/1/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"reserve",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/hc/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"hc",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2NTcwMDk2NDEsImV4cCI6MTY4MjkyOTY0MSwianRpIjoiZDNhOTVhZjMtMDUzOC00NzcwLTk2NTYtZjY2MWFlYmFlNzMxIiwidXNlcl9pZCI6MSwib3JpZ19pYXQiOjE2NTcwMDk2NDF9.D7o9GgA1ZXOqJV2sHsjWmxkyNb_6UmWgYegL-nhsTMQ",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}

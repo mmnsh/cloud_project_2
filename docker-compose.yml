@@ -1,0 +1,174 @@
+version: '3.3'
+
+services:
+
+  main:
+    build:
+      context: main
+      dockerfile: ./airport_ns/
+    environment:
+      DEBUG: 1
+      DB_FLIGHTS_NAME: flights
+      DB_FLIGHTS_USER: root
+      DB_FLIGHTS_PASS: flights
+      DB_FLIGHTS_HOST: flights_db
+      DB_FLIGHTS_PORT: 3306
+      DB_USERS_NAME: flights_users
+      DB_USERS_USER: root
+      DB_USERS_PASS: users
+      DB_USERS_HOST: users_db
+      DB_USERS_PORT: 3306
+      FLUENTD_SERVER: fluentd_main
+    ports:
+      - "8000:8000/tcp"
+    depends_on:
+      - flights_db
+      - users_db
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+            max-file: "3"
+
+  reports:
+    build:
+      context: reports
+      dockerfile: ./airport_reports_ns/
+    environment:
+      DEBUG: 1
+      DB_FLIGHTS_NAME: flights
+      DB_FLIGHTS_USER: root
+      DB_FLIGHTS_PASS: flights
+      DB_FLIGHTS_HOST: flights_db
+      DB_FLIGHTS_PORT: 3306
+      DB_USERS_NAME: flights_users
+      DB_USERS_USER: root
+      DB_USERS_PASS: users
+      DB_USERS_HOST: users_db
+      DB_USERS_PORT: 3306
+      FLUENTD_SERVER: fluentd_reports
+    ports:
+      - "8001:8000/tcp"
+    depends_on:
+      - flights_db
+      - users_db
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "1m"
+          max-file: "3"
+
+  flights_db:
+    images: mysql:latest
+    volumes:
+      - ./db/flights:/docker-entrypoint-initdb.d
+      - /var/data/db-flights:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: flights
+      MYSQL_DATABASE: "flights"
+      MYSQL_USER: "flights"
+      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: "flights"
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+            max-file: "3"
+  
+  users_db:
+    images: mysql:latest
+    volumes:
+      - ./db/users:/docker-entrypoint-initdb.d
+      - /var/data/db-users:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: users
+      MYSQL_DATABASE: "flights_users"
+      MYSQL_USER: "users"
+      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: "users"
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+            max-file: "3"
+  
+  fluentd_main:
+    build: ./fluentd_logger/
+    volumes:
+      - ./fluentd_logger/fluent_development.conf:/fluentd/etc/fluent.conf
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    environment:
+      TZ: Asia/Tehran
+      MONGO_USERNAME: mongodb
+      MONGO_PASSWORD: mongodb
+      MONGO_HOST: mongodb_main
+      MONGO_DATABASE: fluentd
+    depends_on:
+      - mongodb_main
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+            max-file: "3"
+
+  mongodb_main:
+    image: mongo
+    container_name: "mongo_main"
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: fluentd
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data-main:/data/db
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+            max-file: "3"
+  
+  fluentd_reports:
+    build: ./fluentd_logger/
+    volumes:
+      - ./fluentd_logger/fluent_development.conf:/fluentd/etc/fluent.conf
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    environment:
+      TZ: Asia/Tehran
+      MONGO_USERNAME: mongodb
+      MONGO_PASSWORD: mongodb
+      MONGO_HOST: mongodb_reports
+      MONGO_DATABASE: fluentd
+      MONGO_PORT: 27018
+    depends_on:
+      - mongodb_reports
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+            max-file: "3"
+
+  mongodb_reports:
+    image: mongo
+    container_name: "mongo-reports"
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: fluentd
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb-data-reports:/data/db
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "1m"
+            max-file: "3"
+
+volumes:
+  mongodb-data-main:
+  mongodb-data-reports:
+  db-users:
+  db-flights:
